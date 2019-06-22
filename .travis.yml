@@ -1,0 +1,21 @@
+language: 
+ - node_js
+
+node_js:
+ - '9'
+ - '10'
+ - '12'
+
+install:
+ - make install
+ - npm install codecov nyc -g
+
+before_script:
+ - make
+ - make build
+
+script:
+ - nyc mocha
+
+after_success:
+ - codecov -f ./coverage/coverage-final.json
