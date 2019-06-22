@@ -17,11 +17,15 @@
   },
   "homepage": "https://github.com/SudoDotDog/BWNL-Loading-React-Native#readme",
   "peerDependencies": {
+    "react": "*",
     "react-native": "*"
   },
   "devDependencies": {
     "@sudoo/io": "^1.6.0",
     "@sudoo/triforce": "^1.6.0",
+    "@types/react": "^16.8.22",
+    "@types/react-native": "^0.57.63",
+    "react": "^16.8.6",
     "react-native": "^0.59.9"
   }
 }
