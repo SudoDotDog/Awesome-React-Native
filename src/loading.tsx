@@ -31,20 +31,24 @@ export class LoadingView extends React.Component<LoadingProps, LoadingStates> {
         innerAnim: new Animated.Value(0),
     };
 
+    private _onGoing: boolean = false;
+
     public constructor(props: LoadingProps) {
 
         super(props);
 
+        this._shrinkWidth = this._shrinkWidth.bind(this);
         this._expandWidth = this._expandWidth.bind(this);
         this._startRotate = this._startRotate.bind(this);
         this._innerRotate = this._innerRotate.bind(this);
     }
 
     public componentDidMount() {
+        this._checkLoading();
+    }
 
-        this._expandWidth();
-        this._startRotate();
-        this._innerRotate();
+    public componentDidUpdate() {
+        this._checkLoading();
     }
 
     public render() {
@@ -83,6 +87,36 @@ export class LoadingView extends React.Component<LoadingProps, LoadingStates> {
                 }],
             }}
         />);
+    }
+
+    private _checkLoading(): void {
+
+        const loading: boolean = Boolean(this.props.loading);
+
+        if (loading && !this._onGoing) {
+
+            this._expandWidth();
+            this._startRotate();
+            this._innerRotate();
+            this._onGoing = true;
+        }
+
+        if (!loading && this._onGoing) {
+
+            this._shrinkWidth();
+            this._onGoing = false;
+        }
+    }
+
+    private _shrinkWidth(): void {
+
+        Animated.timing(
+            this.state.widthAnim,
+            {
+                toValue: 0,
+                duration: Math.floor(this._getDuration() / 4),
+            },
+        ).start();
     }
 
     private _expandWidth(): void {
