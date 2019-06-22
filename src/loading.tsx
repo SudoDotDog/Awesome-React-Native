@@ -10,6 +10,7 @@ import { Animated, View, ViewStyle } from 'react-native';
 export type LoadingProps = {
 
     readonly style?: ViewStyle;
+    readonly size?: number;
 };
 
 export type LoadingStates = {
@@ -32,69 +33,72 @@ export default class LoadingView extends React.Component<LoadingProps, LoadingSt
 
         super(props);
 
-        this.startRotate = this.startRotate.bind(this);
-        this.innerRotate = this.innerRotate.bind(this);
+        this._expandWidth = this._expandWidth.bind(this);
+        this._startRotate = this._startRotate.bind(this);
+        this._innerRotate = this._innerRotate.bind(this);
     }
 
     public componentDidMount() {
 
-        this.startRotate();
-        this.innerRotate();
-        this.expandWidth();
+        this._expandWidth();
+        this._startRotate();
+        this._innerRotate();
     }
 
     public render() {
-        return (
 
-            <View style={{
-                ...this.props.style,
-                height: 150,
-                width: 150,
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}>
-                <Animated.View
-                    style={{
-                        height: 100,
-                        width: 100,
-                        borderWidth: this.state.widthAnim,
-                        borderColor: '#001F3F',
-                        position: 'absolute',
-                        top: 25,
-                        left: 25,
-                        transform: [{
-                            rotate: this.state.rotateAnim.interpolate({
-                                inputRange: [0, 360],
-                                outputRange: ['0deg', '360deg'],
-                            }),
-                        }],
-                    }}
-                >
-                </Animated.View>
-                <Animated.View
-                    style={{
-                        height: 100,
-                        width: 100,
-                        borderWidth: this.state.widthAnim,
-                        borderColor: '#01FF70',
-                        position: 'absolute',
-                        top: 25,
-                        left: 25,
-                        transform: [{
-                            rotate: this.state.innerAnim.interpolate({
-                                inputRange: [0, 360],
-                                outputRange: ['0deg', '360deg'],
-                            }),
-                        }],
-                    }}
-                >
-                </Animated.View>
-
-            </View>
-        );
+        const boxSize: number = this._getOuterSize();
+        return (<View style={{
+            ...this.props.style,
+            height: boxSize,
+            width: boxSize,
+            justifyContent: 'center',
+            alignItems: 'center',
+        }}>
+            {this._renderSquare('#001F3F', this.state.widthAnim, this.state.rotateAnim)}
+            {this._renderSquare('#01FF70', this.state.widthAnim, this.state.innerAnim)}
+        </View>);
     }
 
-    private expandWidth() {
+    private _renderSquare(color: string, width: Animated.Value, rotate: Animated.Value): React.ReactNode {
+
+        const size: number = this._getSize();
+        const position: number = this._getPosition();
+        return (<Animated.View
+            style={{
+                height: size,
+                width: size,
+                borderWidth: width,
+                borderColor: color,
+                position: 'absolute',
+                top: position,
+                left: position,
+                transform: [{
+                    rotate: rotate.interpolate({
+                        inputRange: [0, 360],
+                        outputRange: ['0deg', '360deg'],
+                    }),
+                }],
+            }}
+        />);
+    }
+
+    private _getSize(): number {
+
+        return this.props.size ? Math.floor(this.props.size) : 100;
+    }
+
+    private _getPosition(): number {
+
+        return Math.floor(this._getSize() / 4);
+    }
+
+    private _getOuterSize(): number {
+
+        return Math.ceil(this._getSize() * 1.5);
+    }
+
+    private _expandWidth(): void {
 
         Animated.timing(
             this.state.widthAnim,
@@ -105,7 +109,8 @@ export default class LoadingView extends React.Component<LoadingProps, LoadingSt
         ).start();
     }
 
-    private startRotate() {
+    private _startRotate(): void {
+
         this.state.rotateAnim.setValue(0);
         Animated.timing(
             this.state.rotateAnim,
@@ -113,12 +118,11 @@ export default class LoadingView extends React.Component<LoadingProps, LoadingSt
                 toValue: 360,
                 duration: 2500,
             },
-        ).start(() => {
-            this.startRotate();
-        });
+        ).start(() => this._startRotate());
     }
 
-    private innerRotate() {
+    private _innerRotate(): void {
+
         this.state.innerAnim.setValue(0);
         Animated.timing(
             this.state.innerAnim,
@@ -126,8 +130,6 @@ export default class LoadingView extends React.Component<LoadingProps, LoadingSt
                 toValue: 360,
                 duration: 2500,
             },
-        ).start(() => {
-            this.innerRotate();
-        });
+        ).start(() => this._innerRotate());
     }
 }
