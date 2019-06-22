@@ -9,8 +9,10 @@ import { Animated, View, ViewStyle } from 'react-native';
 
 export type LoadingProps = {
 
-    readonly style?: ViewStyle;
+    readonly duration?: number;
+    readonly loading?: boolean;
     readonly size?: number;
+    readonly style?: ViewStyle;
 };
 
 export type LoadingStates = {
@@ -20,7 +22,7 @@ export type LoadingStates = {
     readonly innerAnim: Animated.Value;
 };
 
-export default class LoadingView extends React.Component<LoadingProps, LoadingStates> {
+export class LoadingView extends React.Component<LoadingProps, LoadingStates> {
 
     public readonly state: LoadingStates = {
 
@@ -83,6 +85,48 @@ export default class LoadingView extends React.Component<LoadingProps, LoadingSt
         />);
     }
 
+    private _expandWidth(): void {
+
+        Animated.timing(
+            this.state.widthAnim,
+            {
+                toValue: 10,
+                duration: Math.floor(this._getDuration() / 2.5),
+            },
+        ).start();
+    }
+
+    private _startRotate(): void {
+
+        this.state.rotateAnim.setValue(0);
+        if (!this.props.loading) return;
+        Animated.timing(
+            this.state.rotateAnim,
+            {
+                toValue: 360,
+                duration: Math.floor(this._getDuration()),
+            },
+        ).start(() => this._startRotate());
+    }
+
+    private _innerRotate(): void {
+
+        this.state.innerAnim.setValue(0);
+        if (!this.props.loading) return;
+        Animated.timing(
+            this.state.innerAnim,
+            {
+                toValue: 360,
+                duration: Math.floor(this._getDuration() / 2),
+            },
+        ).start(() => this._innerRotate());
+    }
+
+    private _getDuration(): number {
+
+        return this.props.duration || 2500;
+    }
+
     private _getSize(): number {
 
         return this.props.size ? Math.floor(this.props.size) : 100;
@@ -96,40 +140,5 @@ export default class LoadingView extends React.Component<LoadingProps, LoadingSt
     private _getOuterSize(): number {
 
         return Math.ceil(this._getSize() * 1.5);
-    }
-
-    private _expandWidth(): void {
-
-        Animated.timing(
-            this.state.widthAnim,
-            {
-                toValue: 10,
-                duration: 866,
-            },
-        ).start();
-    }
-
-    private _startRotate(): void {
-
-        this.state.rotateAnim.setValue(0);
-        Animated.timing(
-            this.state.rotateAnim,
-            {
-                toValue: 360,
-                duration: 2500,
-            },
-        ).start(() => this._startRotate());
-    }
-
-    private _innerRotate(): void {
-
-        this.state.innerAnim.setValue(0);
-        Animated.timing(
-            this.state.innerAnim,
-            {
-                toValue: 360,
-                duration: 2500,
-            },
-        ).start(() => this._innerRotate());
     }
 }
