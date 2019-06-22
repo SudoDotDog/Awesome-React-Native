@@ -3,13 +3,15 @@
         "Appro",
         "Firstname",
         "Lastname",
+        "RMRF",
         "RPNGO",
         "WMXPY",
         "bwnl",
         "esnext",
         "pano",
         "splited",
-        "sudoo"
+        "sudoo",
+        "triforce"
     ],
     "tslint.configFile": "typescript/tslint.json",
     "files.eol": "\n"
