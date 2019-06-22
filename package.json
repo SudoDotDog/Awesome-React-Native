@@ -1,0 +1,19 @@
+{
+  "name": "@bwnl/rn-loading",
+  "version": "1.0.0",
+  "description": ":black_square_button: BWNL Loading for React Native",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SudoDotDog/BWNL-Loading-React-Native.git"
+  },
+  "author": "WMXPY",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SudoDotDog/BWNL-Loading-React-Native/issues"
+  },
+  "homepage": "https://github.com/SudoDotDog/BWNL-Loading-React-Native#readme"
+}
