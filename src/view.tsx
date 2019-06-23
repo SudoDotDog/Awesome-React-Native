@@ -12,6 +12,7 @@ export type LoadingViewProps = {
 
     readonly width?: number;
     readonly height?: number;
+    readonly loadingStyle?: ViewStyle;
     readonly style?: ViewStyle;
 } & LoadingProps;
 
@@ -20,7 +21,14 @@ export class LoadingView extends React.Component<LoadingViewProps> {
     public render() {
 
         return (<View style={this._getViewStyle()}>
-            <Loading />
+            <Loading
+                duration={this.props.duration}
+                loading={this.props.loading}
+                innerColor={this.props.innerColor}
+                outerColor={this.props.outerColor}
+                size={this.props.size}
+                style={this.props.loadingStyle}
+            />
         </View>);
     }
 

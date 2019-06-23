@@ -12,6 +12,8 @@ export type LoadingProps = {
     readonly duration?: number;
     readonly loading?: boolean;
     readonly size?: number;
+    readonly outerColor?: string;
+    readonly innerColor?: string;
     readonly style?: ViewStyle;
 };
 
@@ -61,15 +63,17 @@ export class Loading extends React.Component<LoadingProps, LoadingStates> {
             justifyContent: 'center',
             alignItems: 'center',
         }}>
-            {this._renderSquare('#001F3F', this.state.widthAnim, this.state.rotateAnim)}
-            {this._renderSquare('#01FF70', this.state.widthAnim, this.state.innerAnim)}
+            {this._renderSquare(this._getOuterColor(), this.state.rotateAnim)}
+            {this._renderSquare(this._getInnerColor(), this.state.innerAnim)}
         </View>);
     }
 
-    private _renderSquare(color: string, width: Animated.Value, rotate: Animated.Value): React.ReactNode {
+    private _renderSquare(color: string, rotate: Animated.Value): React.ReactNode {
 
         const size: number = this._getSize();
         const position: number = this._getPosition();
+
+        const width: Animated.Value = this.state.widthAnim;
         return (<Animated.View
             style={{
                 height: size,
@@ -154,6 +158,16 @@ export class Loading extends React.Component<LoadingProps, LoadingStates> {
                 duration: this._getDuration(0.5),
             },
         ).start(() => this._innerRotate());
+    }
+
+    private _getInnerColor(): string {
+
+        return this.props.innerColor || '#01FF70';
+    }
+
+    private _getOuterColor(): string {
+
+        return this.props.outerColor || '#001F3F';
     }
 
     private _getDuration(delayTimes: number = 1): number {
