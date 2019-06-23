@@ -114,7 +114,7 @@ export class LoadingView extends React.Component<LoadingProps, LoadingStates> {
             this.state.widthAnim,
             {
                 toValue: 0,
-                duration: Math.floor(this._getDuration() / 4),
+                duration: this._getDuration(0.25),
             },
         ).start();
     }
@@ -124,8 +124,8 @@ export class LoadingView extends React.Component<LoadingProps, LoadingStates> {
         Animated.timing(
             this.state.widthAnim,
             {
-                toValue: 10,
-                duration: Math.floor(this._getDuration() / 2.5),
+                toValue: this._getWidth(),
+                duration: this._getDuration(0.4),
             },
         ).start();
     }
@@ -138,7 +138,7 @@ export class LoadingView extends React.Component<LoadingProps, LoadingStates> {
             this.state.rotateAnim,
             {
                 toValue: 360,
-                duration: Math.floor(this._getDuration()),
+                duration: this._getDuration(),
             },
         ).start(() => this._startRotate());
     }
@@ -151,19 +151,25 @@ export class LoadingView extends React.Component<LoadingProps, LoadingStates> {
             this.state.innerAnim,
             {
                 toValue: 360,
-                duration: Math.floor(this._getDuration() / 2),
+                duration: this._getDuration(0.5),
             },
         ).start(() => this._innerRotate());
     }
 
-    private _getDuration(): number {
+    private _getDuration(delayTimes: number = 1): number {
 
-        return this.props.duration || 2500;
+        const duration: number = this.props.duration || 2500;
+        return Math.ceil(duration * delayTimes);
     }
 
     private _getSize(): number {
 
         return this.props.size ? Math.floor(this.props.size) : 100;
+    }
+
+    private _getWidth(): number {
+
+        return this.props.size ? Math.ceil(this.props.size / 10) : 10;
     }
 
     private _getPosition(): number {
