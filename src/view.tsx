@@ -12,6 +12,7 @@ export type LoadingViewProps = {
 
     readonly width?: number;
     readonly height?: number;
+    readonly flex?: number;
     readonly loadingStyle?: ViewStyle;
     readonly style?: ViewStyle;
 } & LoadingProps;
@@ -29,6 +30,7 @@ export class LoadingView extends React.Component<LoadingViewProps> {
                 size={this.props.size}
                 style={this.props.loadingStyle}
             />
+            {this.props.children}
         </View>);
     }
 
@@ -37,6 +39,7 @@ export class LoadingView extends React.Component<LoadingViewProps> {
         return {
             width: this.props.width,
             height: this.props.height,
+            flex: this.props.flex,
             justifyContent: 'center',
             alignItems: 'center',
             ...this.props.style,
