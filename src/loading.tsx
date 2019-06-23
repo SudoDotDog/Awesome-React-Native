@@ -22,7 +22,7 @@ export type LoadingStates = {
     readonly innerAnim: Animated.Value;
 };
 
-export class LoadingView extends React.Component<LoadingProps, LoadingStates> {
+export class Loading extends React.Component<LoadingProps, LoadingStates> {
 
     public readonly state: LoadingStates = {
 
