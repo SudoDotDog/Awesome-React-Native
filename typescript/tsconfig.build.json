@@ -5,6 +5,7 @@
 			"dom",
 			"esnext"
 		],
+		"declaration": true,
 		"jsx": "react-native",
 		"moduleResolution": "node",
 		"noImplicitAny": true,
