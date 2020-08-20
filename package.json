@@ -27,5 +27,20 @@
     "@types/react-native": "^0.63.8",
     "react": "^16.13.1",
     "react-native": "^0.63.2"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "include": [
+      "src/**/*.ts"
+    ],
+    "instrument": true,
+    "reporter": [
+      "json",
+      "text-summary"
+    ],
+    "report-dir": "coverage",
+    "sourceMap": true
   }
 }
