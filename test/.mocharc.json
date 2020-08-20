@@ -3,6 +3,6 @@
         "test/**/*.test.ts"
     ],
     "extends": [
-        "@sudoo/mocha-config-react"
+        "@sudoo/mocha-config-react-native"
     ]
 }
