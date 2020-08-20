@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /**
  * @author WMXPY
  * @namespace Loading
@@ -45,11 +46,11 @@ export class Loading extends React.Component<LoadingProps, LoadingStates> {
         this._innerRotate = this._innerRotate.bind(this);
     }
 
-    public componentDidMount() {
+    public componentDidMount(): void {
         this._checkLoading();
     }
 
-    public componentDidUpdate() {
+    public componentDidUpdate(): void {
         this._checkLoading();
     }
 
@@ -119,6 +120,7 @@ export class Loading extends React.Component<LoadingProps, LoadingStates> {
             {
                 toValue: 0,
                 duration: this._getDuration(0.25),
+                useNativeDriver: true,
             },
         ).start();
     }
@@ -130,6 +132,7 @@ export class Loading extends React.Component<LoadingProps, LoadingStates> {
             {
                 toValue: this._getWidth(),
                 duration: this._getDuration(0.4),
+                useNativeDriver: true,
             },
         ).start();
     }
@@ -137,12 +140,16 @@ export class Loading extends React.Component<LoadingProps, LoadingStates> {
     private _startRotate(): void {
 
         this.state.rotateAnim.setValue(0);
-        if (!this.props.loading) return;
+        if (!this.props.loading) {
+            return;
+        }
+
         Animated.timing(
             this.state.rotateAnim,
             {
                 toValue: 360,
                 duration: this._getDuration(),
+                useNativeDriver: true,
             },
         ).start(() => this._startRotate());
     }
@@ -150,12 +157,16 @@ export class Loading extends React.Component<LoadingProps, LoadingStates> {
     private _innerRotate(): void {
 
         this.state.innerAnim.setValue(0);
-        if (!this.props.loading) return;
+        if (!this.props.loading) {
+            return;
+        }
+
         Animated.timing(
             this.state.innerAnim,
             {
                 toValue: 360,
                 duration: this._getDuration(0.5),
+                useNativeDriver: true,
             },
         ).start(() => this._innerRotate());
     }
