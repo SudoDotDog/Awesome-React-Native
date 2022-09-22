@@ -23,7 +23,7 @@
   "devDependencies": {
     "@sudoo/io": "^1.8.0",
     "@sudoo/triforce": "^3.8.0",
-    "@types/react": "^18.0.19",
+    "@types/react": "^18.0.20",
     "@types/react-native": "^0.70.3",
     "react": "^16.13.1",
     "react-native": "^0.63.4"
