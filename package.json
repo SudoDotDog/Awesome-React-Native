@@ -24,7 +24,7 @@
     "@sudoo/io": "^1.8.0",
     "@sudoo/triforce": "^3.11.0",
     "@types/react": "^18.2.5",
-    "@types/react-native": "^0.71.5",
+    "@types/react-native": "^0.71.6",
     "react": "^16.13.1",
     "react-native": "^0.63.5"
   },
